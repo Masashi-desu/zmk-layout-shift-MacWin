@@ -1,0 +1,38 @@
+/*
+ * Copyright (c) 2024 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* ZMK Layout Shift Module */
+
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+    behaviors {
+        // Layout-aware key press behavior alias
+        /omit-if-no-ref/ kpls: layout_shift_key_press {
+            compatible = "zmk,behavior-layout-shift-key-press";
+            #binding-cells = <1>;
+        };
+
+        // Layout shift toggle behaviors
+        /omit-if-no-ref/ tog_ls: toggle_layout_shift {
+            compatible = "zmk,behavior-layout-shift-toggle";
+            #binding-cells = <0>;
+            toggle-mode = "flip";
+        };
+
+        /omit-if-no-ref/ tog_ls_on: toggle_layout_shift_on {
+            compatible = "zmk,behavior-layout-shift-toggle";
+            #binding-cells = <0>;
+            toggle-mode = "on";
+        };
+
+        /omit-if-no-ref/ tog_ls_off: toggle_layout_shift_off {
+            compatible = "zmk,behavior-layout-shift-toggle";
+            #binding-cells = <0>;
+            toggle-mode = "off";
+        };
+    };
+};

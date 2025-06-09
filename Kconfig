@@ -1,0 +1,23 @@
+# zmk-layout-shift Kconfig
+
+config LAYOUT_SHIFT
+    bool "Layout Shift"
+    default y
+    select INPUT_PROCESSOR
+    help
+      Enable the Layout Shift module.
+
+if LAYOUT_SHIFT
+
+config LAYOUT_SHIFT_LOG_LEVEL
+    int "Layout Shift Log Level"
+    default 3
+    help
+      Set the log level for the Layout Shift module.
+      0: OFF
+      1: ERROR
+      2: WARNING
+      3: INFO
+      4: DEBUG
+
+endif # LAYOUT_SHIFT
