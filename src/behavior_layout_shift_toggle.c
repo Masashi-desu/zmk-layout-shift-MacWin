@@ -104,7 +104,7 @@ static int on_layout_shift_toggle_binding_released(struct zmk_behavior_binding *
 static const struct behavior_driver_api behavior_layout_shift_toggle_driver_api = {
     .binding_pressed = on_layout_shift_toggle_binding_pressed,
     .binding_released = on_layout_shift_toggle_binding_released,
-    .locality = BEHAVIOR_LOCALITY_GLOBAL,
+    .locality = BEHAVIOR_LOCALITY_CENTRAL,
 #if IS_ENABLED(CONFIG_ZMK_BEHAVIOR_METADATA)
     .get_parameter_metadata = zmk_behavior_get_empty_param_metadata,
 #endif
