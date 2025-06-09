@@ -48,7 +48,7 @@ manifest:
     - name: kot149
       url-base: https://github.com/kot149
   projects:
-	- name: zmk
+    - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
