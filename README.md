@@ -48,9 +48,13 @@ manifest:
     - name: kot149
       url-base: https://github.com/kot149
   projects:
+	- name: zmk
+      remote: zmkfirmware
+      revision: main
+      import: app/west.yml
     - name: zmk-layout-shift
       remote: kot149
-      revision: main
+      revision: v1
   self:
     path: config
 ```
