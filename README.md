@@ -27,6 +27,12 @@ Optionally, you can `#include` [`layout_shift_overlay.dtsi`](dts/layout_shift_ov
 - 🚧 Save layout shift state between reboots
 - 🚧 Support for other layouts
 
+## List of Supported Layouts
+
+- JIS: Japanese keyboard layout
+
+Currently, only JIS is supported and no configuration is available.
+
 ## Usage
 
 ### 1. Add the Module to your `west.yml`
