@@ -50,12 +50,12 @@ manifest:
 
 ### 2. Update your Keymap
 
-1. `#include` [`layout_shift.dtsi`](dts/layout_shift.dtsi) at the top of your keymap.
+1. `#include` [`layout_shift.dtsi`](dts/layout_shift.dtsi) at the top of your keymap:
    ```c
    #include <layout_shift.dtsi>
    ```
 
-2. Select the target keyboard layout by setting one of the following Kconfig options in your configuration file (e.g., `your_keyboard.conf`):
+2. Select the target keyboard layout by setting one in your configuration file (e.g., `your_keyboard.conf`):
    ```kconfig
    # Japanese (JIS) layout (default)
    CONFIG_LAYOUT_SHIFT_TARGET_JIS=y
@@ -123,7 +123,7 @@ Example:
 
 ### Target Layout Selection
 
-Select the target keyboard layout by setting one of the following Kconfig options in your configuration file (e.g., `your_keyboard.conf`):
+Select the target keyboard layout by setting one in your configuration file (e.g., `your_keyboard.conf`):
 
 ```conf
 # Japanese (JIS) layout (default)
@@ -137,7 +137,7 @@ CONFIG_LAYOUT_SHIFT_TARGET_DVORAK=y
 
 See [Kconfig](Kconfig) for all available options.
 
-**Note**: Only one layout can be selected at compile-time. If no layout is explicitly selected, JIS (Japanese) layout will be used as the default.
+**Note**: Only one layout can be selected at compile-time.
 
 ### Persistent State
 
@@ -213,6 +213,6 @@ Add the include statement to `src/layouts/index.h`:
 #endif
 ```
 
-### Step 5: Update Documentation
+### Step 4: Update Documentation
 
 Update this README.md to list the new layout in the "List of Supported Layouts" section.
