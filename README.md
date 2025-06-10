@@ -97,7 +97,7 @@ manifest:
 
 ### 3. Override `&kp` Behavior (Optional)
 
-You can also `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) to override the `&kp` behavior with `&kpls`, so that you can use layout shift without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
+You can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) to override the `&kp` behavior with `&kpls`, so that you can use layout shift without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
 
 Example:
 ```dts
@@ -109,7 +109,7 @@ Example:
 
         default_layer {
             bindings = <
-                &kp EQUAL    // Will output = normally, but _ when layout shift is active
+                &kp EQUAL    // Will output = normally, but _ when layout shift is active for JIS layout
                 &tog_ls        // Toggle layout shift on/off
                 &tog_ls_on     // Turn layout shift on
                 &tog_ls_off    // Turn layout shift off
@@ -119,41 +119,9 @@ Example:
 };
 ```
 
-## Configuration
-
-### Target Layout Selection
-
-Select the target keyboard layout by setting one in your configuration file (e.g., `your_keyboard.conf`):
-
-```conf
-# Japanese (JIS) layout (default)
-CONFIG_LAYOUT_SHIFT_TARGET_JIS=y
-
-# or
-
-# Dvorak layout
-CONFIG_LAYOUT_SHIFT_TARGET_DVORAK=y
-```
-
-See [Kconfig](Kconfig) for all available options.
-
-**Note**: Only one layout can be selected at compile-time.
-
-### Persistent State
-
-The layout shift state can be configured to persist between reboots using the following Kconfig option:
-
-- `CONFIG_LAYOUT_SHIFT_PERSISTENT_STATE` (default: `y`): Enable persistent storage of layout shift state across reboots
-
-When enabled, the layout shift state is automatically saved to flash memory whenever it changes and restored on boot. To disable persistent state and always start with layout shift off, add the following to your configuration:
-
-```conf
-CONFIG_LAYOUT_SHIFT_PERSISTENT_STATE=n
-```
+In this case, you can omit `layout_shift.dtsi` as it's also included in `layout_shift_kp_override.dtsi`.
 
 ## Adding New Layouts
-
-If you want to add support for a new keyboard layout, follow these simple steps:
 
 ### Step 1: Add Kconfig Option
 
