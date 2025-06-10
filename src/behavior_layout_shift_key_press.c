@@ -52,22 +52,36 @@ static const struct keycode_mapping us_to_jis_map[] = {
 
 #define US_TO_JIS_MAP_SIZE (sizeof(us_to_jis_map) / sizeof(us_to_jis_map[0]))
 
-// Function to lookup mapped keycode from input keycode
+// Function to lookup mapped keycode from input keycode considering shift state
 static uint32_t lookup_mapped_keycode(uint32_t input_keycode) {
     // Only apply mapping if layout shift is active
     if (!zmk_layout_shift_is_active()) {
         return input_keycode;
     }
 
-    // Look up in mapping table (jis_keycode is the input, us_keycode is the output)
+    // Get current explicit modifier state
+    zmk_mod_flags_t explicit_mods = zmk_hid_get_explicit_mods();
+    bool shift_pressed = (explicit_mods & (MOD_LSFT | MOD_RSFT)) != 0;
+
+    // If shift is pressed, apply LS() macro to get shifted keycode
+    uint32_t effective_keycode = input_keycode;
+    if (shift_pressed) {
+        effective_keycode = LS(input_keycode);
+        LOG_DBG("LAYOUT_SHIFT: Shift+%08X detected, converted to %08X",
+                input_keycode, effective_keycode);
+    }
+
+    // Look up in mapping table (us_keycode is the input, jis_keycode is the output)
     for (size_t i = 0; i < US_TO_JIS_MAP_SIZE; i++) {
-        if (us_to_jis_map[i].us_keycode == input_keycode) {
+        if (us_to_jis_map[i].us_keycode == effective_keycode) {
+            LOG_DBG("LAYOUT_SHIFT: Mapping %08X -> %08X",
+                    effective_keycode, us_to_jis_map[i].jis_keycode);
             return us_to_jis_map[i].jis_keycode;
         }
     }
 
-    // If no mapping found, return original keycode
-    return input_keycode;
+    // If no mapping found, return effective keycode (which might be the shifted version)
+    return effective_keycode;
 }
 
 struct behavior_layout_shift_key_press_data {};
