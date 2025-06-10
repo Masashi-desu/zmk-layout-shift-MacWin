@@ -27,26 +27,26 @@ struct keycode_mapping {
 
 // Custom Japanese keyboard layout mapping table
 static const struct keycode_mapping us_to_jis_map[] = {
-    // User-specified mappings (to <- from):
-    {UNDERSCORE, EQUAL},           // _ <- =
-    {EQUAL, CARET},                // = <- ^
-    {PLUS, TILDE},                 // + <- ~
-    {LEFT_BRACKET, AT_SIGN},       // [ <- @
-    {LEFT_BRACE, GRAVE},           // { <- `
-    {RIGHT_BRACKET, LEFT_BRACKET}, // ] <- [
-    {BACKSLASH, RIGHT_BRACKET},    // \ <- ]
-    {RIGHT_BRACE, LEFT_BRACE},     // } <- {
-    {PIPE, RIGHT_BRACE},           // | <- }
-    {COLON, PLUS},                 // : <- +
-    {SINGLE_QUOTE, COLON},         // ' <- :
-    {DOUBLE_QUOTES, ASTERISK},     // " <- *
-    {AT_SIGN, DOUBLE_QUOTES},      // @ <- "
-    {CARET, AMPERSAND},            // ^ <- &
-    {AMPERSAND, SINGLE_QUOTE},     // & <- '
-    {ASTERISK, LEFT_PARENTHESIS},  // * <- (
-    {LEFT_PARENTHESIS, RIGHT_PARENTHESIS}, // ( <- )
-    {0x89, BACKSLASH },            // backslash
-    {LS(0x89), PIPE},              // |
+    /* from -> to */
+    {EQUAL, UNDERSCORE},           /* = -> _ */
+    {CARET, EQUAL},                /* ^ -> = */
+    {TILDE, PLUS},                 /* ~ -> + */
+    {AT_SIGN, LEFT_BRACKET},       /* @ -> [ */
+    {GRAVE, LEFT_BRACE},           /* ` -> { */
+    {LEFT_BRACKET, RIGHT_BRACKET}, /* [ -> ] */
+    {RIGHT_BRACKET, BACKSLASH},    /* ] -> \ */
+    {LEFT_BRACE, RIGHT_BRACE},     /* { -> } */
+    {RIGHT_BRACE, PIPE},           /* } -> | */
+    {PLUS, COLON},                 /* + -> : */
+    {COLON, SINGLE_QUOTE},         /* : -> ' */
+    {ASTERISK, DOUBLE_QUOTES},     /* * -> " */
+    {DOUBLE_QUOTES, AT_SIGN},      /* " -> @ */
+    {AMPERSAND, CARET},            /* & -> ^ */
+    {SINGLE_QUOTE, AMPERSAND},     /* ' -> & */
+    {LEFT_PARENTHESIS, ASTERISK},  /* ( -> * */
+    {RIGHT_PARENTHESIS, LEFT_PARENTHESIS}, /* ) -> ( */
+    {BACKSLASH, 0x89},             /* \ */
+    {PIPE, LS(0x89)},              /* | */
 
 };
 
@@ -59,15 +59,10 @@ static uint32_t lookup_mapped_keycode(uint32_t input_keycode) {
         return input_keycode;
     }
 
-    // Letters A-Z remain the same
-    if (input_keycode >= A && input_keycode <= Z) {
-        return input_keycode;
-    }
-
     // Look up in mapping table (jis_keycode is the input, us_keycode is the output)
     for (size_t i = 0; i < US_TO_JIS_MAP_SIZE; i++) {
-        if (us_to_jis_map[i].jis_keycode == input_keycode) {
-            return us_to_jis_map[i].us_keycode;
+        if (us_to_jis_map[i].us_keycode == input_keycode) {
+            return us_to_jis_map[i].jis_keycode;
         }
     }
 
