@@ -17,21 +17,12 @@ This module defines the following behaviors:
 
 Optionally, you can `#include` [`layout_shift_overlay.dtsi`](dts/layout_shift_overlay.dtsi) to override the `&kp` behavior with `&kpls`, so that you can use layout shift without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
 
-## Current Implementation Status
-
-- ✅ `&kpls` behavior core functionality
-- ✅ `&kpls` behavior alias
-- ✅ `&kp` overlay
-- ✅ JIS keyboard layout translation map
-- ✅ `&tog_ls`, `&tog_ls_on`, `&tog_ls_off` behavior
-- ✅ Save layout shift state between reboots
-- 🚧 Support for other layouts
-
 ## List of Supported Layouts
 
-- JIS: Japanese keyboard layout
+- **JIS**: Japanese keyboard layout (default)
+- **Dvorak**: Dvorak keyboard layout
 
-Currently, only JIS is supported and no configuration is available.
+The target layout is selected at compile-time using Kconfig configuration.
 
 ## Usage
 
@@ -61,7 +52,19 @@ manifest:
 
 ### 2. Update your Keymap
 
-`#include` [`layout_shift.dtsi`](dts/layout_shift.dtsi) to your keymap, then use the following behaviors in your keymap to make your keyboard layout-aware:
+1. `#include` [`layout_shift.dtsi`](dts/layout_shift.dtsi) at the top of your keymap.
+
+2. Select the target keyboard layout by setting one of the following Kconfig options in your configuration file (e.g., `your_keyboard.conf`):
+
+```conf
+# Japanese (JIS) layout (default)
+CONFIG_LAYOUT_SHIFT_TARGET_JIS=y
+
+# Dvorak layout
+CONFIG_LAYOUT_SHIFT_TARGET_DVORAK=y
+```
+
+3. Use the following behaviors in your keymap to make your keyboard layout-aware:
 
 - `&kpls`: A layout-aware version of `&kp`; maps keycodes according to the current layout shift state
 - `&tog_ls`: Toggles the layout shift state
@@ -114,6 +117,20 @@ Example:
 
 ## Configuration
 
+### Target Layout Selection
+
+Select the target keyboard layout by setting one of the following Kconfig options in your configuration file (e.g., `your_keyboard.conf`):
+
+```conf
+# Japanese (JIS) layout (default)
+CONFIG_LAYOUT_SHIFT_TARGET_JIS=y
+
+# Dvorak layout
+CONFIG_LAYOUT_SHIFT_TARGET_DVORAK=y
+```
+
+**Note**: Only one layout can be selected at compile-time. If no layout is explicitly selected, JIS (Japanese) layout will be used as the default.
+
 ### Persistent State
 
 The layout shift state can be configured to persist between reboots using the following Kconfig option:
@@ -122,6 +139,82 @@ The layout shift state can be configured to persist between reboots using the fo
 
 When enabled, the layout shift state is automatically saved to flash memory whenever it changes and restored on boot. To disable persistent state and always start with layout shift off, add the following to your configuration:
 
-```
+```conf
 CONFIG_LAYOUT_SHIFT_PERSISTENT_STATE=n
 ```
+
+## Adding New Layouts
+
+If you want to add support for a new keyboard layout, follow these simple steps:
+
+### Step 1: Add Kconfig Option
+
+Add a new option to the `choice` block in `Kconfig`:
+
+```kconfig
+choice LAYOUT_SHIFT_TARGET_LAYOUT
+    prompt "Target keyboard layout"
+    default LAYOUT_SHIFT_TARGET_JIS
+
+config LAYOUT_SHIFT_TARGET_JIS
+    bool "Japanese (JIS)"
+
+config LAYOUT_SHIFT_TARGET_DVORAK
+    bool "Dvorak"
+
+config LAYOUT_SHIFT_TARGET_COLEMAK    # Add this line
+    bool "Colemak"                     # Add this line
+
+endchoice
+```
+
+### Step 2: Create Layout Definition File
+
+Create a new layout file in `src/layouts/` (e.g., `layout_colemak.h`):
+
+```c
+#ifdef CONFIG_LAYOUT_SHIFT_TARGET_COLEMAK
+#define LAYOUT_DEFINED
+// Colemak keyboard layout mappings
+// Maps US QWERTY keycodes to their Colemak equivalents
+static const struct keycode_mapping layout_map[] = {
+    /* Letter position changes (QWERTY -> Colemak) */
+    {E, F},                   // E -> F
+    {R, P},                   // R -> P
+    {T, G},                   // T -> G
+    // ... add more mappings as needed
+};
+#endif
+```
+
+### Step 3: Include in Index File
+
+Add the include statement to `src/layouts/index.h`:
+
+```c
+// Layout index - includes all available layout definitions
+// Each layout file contains its own conditional compilation directives
+
+#include "layout_jis.h"
+#include "layout_dvorak.h"
+#include "layout_colemak.h"    // Add this line
+
+// Ensure at least one layout is defined
+#ifndef LAYOUT_DEFINED
+#error "No target layout selected. Please select a layout in Kconfig."
+#endif
+```
+
+### Step 5: Update Documentation
+
+Update this README.md to list the new layout in the "List of Supported Layouts" section.
+
+### Step 6: Test
+
+Run the build verification test to ensure everything compiles correctly:
+
+```bash
+ZMK_CONFIG_NAME=zmk-config-roBa just --justfile ../../justfile --working-directory ../.. build roBa_R -S zmk-usb-logging
+```
+
+That's it! The new layout will be available for selection in the Kconfig system.

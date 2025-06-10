@@ -9,6 +9,25 @@ config LAYOUT_SHIFT
 
 if LAYOUT_SHIFT
 
+choice LAYOUT_SHIFT_TARGET_LAYOUT
+    prompt "Target keyboard layout"
+    default LAYOUT_SHIFT_TARGET_JIS
+    help
+      Select the target keyboard layout for layout shift mappings.
+      This determines which key mappings are used when layout shift is active.
+
+config LAYOUT_SHIFT_TARGET_JIS
+    bool "Japanese (JIS)"
+    help
+      Japanese keyboard layout mappings.
+
+config LAYOUT_SHIFT_TARGET_DVORAK
+    bool "Dvorak"
+    help
+      Dvorak keyboard layout mappings.
+
+endchoice
+
 config LAYOUT_SHIFT_PERSISTENT_STATE
     bool "Layout Shift Persistent State"
     default y

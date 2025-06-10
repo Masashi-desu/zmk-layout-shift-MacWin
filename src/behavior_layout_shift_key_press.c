@@ -18,39 +18,16 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 // External function to check layout shift state
 extern bool zmk_layout_shift_is_active(void);
 
-// US to JIS keycode mapping table
-// Maps US layout keycodes to their JIS equivalents
+// Keycode mapping structure
 struct keycode_mapping {
     uint32_t us_keycode;
-    uint32_t jis_keycode;
+    uint32_t target_keycode;
 };
 
-// Custom Japanese keyboard layout mapping table
-static const struct keycode_mapping us_to_jis_map[] = {
-    /* from -> to */
-    {EQUAL, UNDERSCORE},           /* = -> _ */
-    {CARET, EQUAL},                /* ^ -> = */
-    {TILDE, PLUS},                 /* ~ -> + */
-    {AT_SIGN, LEFT_BRACKET},       /* @ -> [ */
-    {GRAVE, LEFT_BRACE},           /* ` -> { */
-    {LEFT_BRACKET, RIGHT_BRACKET}, /* [ -> ] */
-    {RIGHT_BRACKET, BACKSLASH},    /* ] -> \ */
-    {LEFT_BRACE, RIGHT_BRACE},     /* { -> } */
-    {RIGHT_BRACE, PIPE},           /* } -> | */
-    {PLUS, COLON},                 /* + -> : */
-    {COLON, SINGLE_QUOTE},         /* : -> ' */
-    {ASTERISK, DOUBLE_QUOTES},     /* * -> " */
-    {DOUBLE_QUOTES, AT_SIGN},      /* " -> @ */
-    {AMPERSAND, CARET},            /* & -> ^ */
-    {SINGLE_QUOTE, AMPERSAND},     /* ' -> & */
-    {LEFT_PARENTHESIS, ASTERISK},  /* ( -> * */
-    {RIGHT_PARENTHESIS, LEFT_PARENTHESIS}, /* ) -> ( */
-    {UNDERSCORE, LS(0x87)},        /* _ */
-    {BACKSLASH, 0x89},             /* \ */
-    {PIPE, LS(0x89)},              /* | */
-};
+// Include all layout definitions (with conditional compilation)
+#include "layouts/index.h"
 
-#define US_TO_JIS_MAP_SIZE (sizeof(us_to_jis_map) / sizeof(us_to_jis_map[0]))
+#define LAYOUT_MAP_SIZE (sizeof(layout_map) / sizeof(layout_map[0]))
 
 // Function to lookup mapped keycode from input keycode considering shift state
 static uint32_t lookup_mapped_keycode(uint32_t input_keycode) {
@@ -71,12 +48,12 @@ static uint32_t lookup_mapped_keycode(uint32_t input_keycode) {
                 input_keycode, effective_keycode);
     }
 
-    // Look up in mapping table (us_keycode is the input, jis_keycode is the output)
-    for (size_t i = 0; i < US_TO_JIS_MAP_SIZE; i++) {
-        if (us_to_jis_map[i].us_keycode == effective_keycode) {
+    // Look up in mapping table (us_keycode is the input, target_keycode is the output)
+    for (size_t i = 0; i < LAYOUT_MAP_SIZE; i++) {
+        if (layout_map[i].us_keycode == effective_keycode) {
             LOG_DBG("LAYOUT_SHIFT: Mapping %08X -> %08X",
-                    effective_keycode, us_to_jis_map[i].jis_keycode);
-            return us_to_jis_map[i].jis_keycode;
+                    effective_keycode, layout_map[i].target_keycode);
+            return layout_map[i].target_keycode;
         }
     }
 
@@ -133,7 +110,7 @@ static const struct behavior_driver_api behavior_layout_shift_key_press_driver_a
 };
 
 static int layout_shift_key_press_init(const struct device *dev) {
-    LOG_INF("Custom Layout Shift Behavior Initialized - Japanese keyboard mapping active!");
+    LOG_INF("Layout Shift Behavior Initialized");
     return 0;
 }
 
