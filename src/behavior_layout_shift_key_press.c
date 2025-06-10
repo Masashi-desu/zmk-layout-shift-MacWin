@@ -45,9 +45,9 @@ static const struct keycode_mapping us_to_jis_map[] = {
     {SINGLE_QUOTE, AMPERSAND},     /* ' -> & */
     {LEFT_PARENTHESIS, ASTERISK},  /* ( -> * */
     {RIGHT_PARENTHESIS, LEFT_PARENTHESIS}, /* ) -> ( */
+    {UNDERSCORE, LS(0x87)},        /* _ */
     {BACKSLASH, 0x89},             /* \ */
     {PIPE, LS(0x89)},              /* | */
-
 };
 
 #define US_TO_JIS_MAP_SIZE (sizeof(us_to_jis_map) / sizeof(us_to_jis_map[0]))
