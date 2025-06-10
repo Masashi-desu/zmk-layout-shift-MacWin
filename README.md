@@ -109,7 +109,7 @@ Example:
 
         default_layer {
             bindings = <
-                &kp EQUAL    // Will output = normally, but _ when layout shift is active for JIS layout
+                &kp EQUAL      // Will output = normally, but _ when layout shift is active for JIS layout
                 &tog_ls        // Toggle layout shift on/off
                 &tog_ls_on     // Turn layout shift on
                 &tog_ls_off    // Turn layout shift off
