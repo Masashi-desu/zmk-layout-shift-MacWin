@@ -11,28 +11,32 @@
 / {
     behaviors {
         // Layout-aware key press behavior alias
-        /omit-if-no-ref/ kpls: layout_shift_key_press {
+        kpls: layout_shift_key_press {
             compatible = "zmk,behavior-layout-shift-key-press";
             #binding-cells = <1>;
+            label = "LAYOUT_SHIFT_KEY_PRESS";
         };
 
         // Layout shift toggle behaviors
-        /omit-if-no-ref/ tog_ls: toggle_layout_shift {
+        tog_ls: toggle_layout_shift {
             compatible = "zmk,behavior-layout-shift-toggle";
             #binding-cells = <0>;
             toggle-mode = "flip";
+            label = "LAYOUT_SHIFT_TOGGLE";
         };
 
-        /omit-if-no-ref/ tog_ls_on: toggle_layout_shift_on {
+        tog_ls_on: toggle_layout_shift_on {
             compatible = "zmk,behavior-layout-shift-toggle";
             #binding-cells = <0>;
             toggle-mode = "on";
+            label = "LAYOUT_SHIFT_TOGGLE_ON";
         };
 
-        /omit-if-no-ref/ tog_ls_off: toggle_layout_shift_off {
+        tog_ls_off: toggle_layout_shift_off {
             compatible = "zmk,behavior-layout-shift-toggle";
             #binding-cells = <0>;
             toggle-mode = "off";
+            label = "LAYOUT_SHIFT_TOGGLE_OFF";
         };
     };
 };
