@@ -3,7 +3,6 @@
 config LAYOUT_SHIFT
     bool "Layout Shift"
     default y
-    select INPUT_PROCESSOR
     help
       Enable the Layout Shift module.
 
