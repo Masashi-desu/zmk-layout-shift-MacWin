@@ -22,8 +22,6 @@ Optionally, you can `#include` [`layout_shift_overlay.dtsi`](dts/layout_shift_ov
 - **JIS**: Japanese keyboard layout (default)
 - **Dvorak**: Dvorak keyboard layout
 
-The target layout is selected at compile-time using Kconfig configuration.
-
 ## Usage
 
 ### 1. Add the Module to your `west.yml`
@@ -53,43 +51,49 @@ manifest:
 ### 2. Update your Keymap
 
 1. `#include` [`layout_shift.dtsi`](dts/layout_shift.dtsi) at the top of your keymap.
+   ```c
+   #include <layout_shift.dtsi>
+   ```
 
 2. Select the target keyboard layout by setting one of the following Kconfig options in your configuration file (e.g., `your_keyboard.conf`):
+   ```kconfig
+   # Japanese (JIS) layout (default)
+   CONFIG_LAYOUT_SHIFT_TARGET_JIS=y
 
-```conf
-# Japanese (JIS) layout (default)
-CONFIG_LAYOUT_SHIFT_TARGET_JIS=y
+   # or
 
-# Dvorak layout
-CONFIG_LAYOUT_SHIFT_TARGET_DVORAK=y
-```
+   # Dvorak layout
+   CONFIG_LAYOUT_SHIFT_TARGET_DVORAK=y
+   ```
+
+   See [Kconfig](Kconfig) for all available options.
 
 3. Use the following behaviors in your keymap to make your keyboard layout-aware:
 
-- `&kpls`: A layout-aware version of `&kp`; maps keycodes according to the current layout shift state
-- `&tog_ls`: Toggles the layout shift state
-- `&tog_ls_on`: Turns on the layout shift state
-- `&tog_ls_off`: Turns off the layout shift state
+   - `&kpls`: A layout-aware version of `&kp`; maps keycodes according to the current layout shift state
+   - `&tog_ls`: Toggles the layout shift state
+   - `&tog_ls_on`: Turns on the layout shift state
+   - `&tog_ls_off`: Turns off the layout shift state
 
-Example:
-```dts
-#include <layout_shift.dtsi>
+   Example:
+   ```dts
+   #include <layout_shift.dtsi>
 
-/ {
-    keymap {
-        compatible = "zmk,keymap";
+   / {
+       keymap {
+           compatible = "zmk,keymap";
 
-        default_layer {
-            bindings = <
-                &kpls EQUAL    // Will output = normally, but _ when layout shift is active
-                &tog_ls        // Toggle layout shift on/off
-                &tog_ls_on     // Turn layout shift on
-                &tog_ls_off    // Turn layout shift off
-            >;
-        };
-    };
-};
-```
+           default_layer {
+               bindings = <
+                   &kpls EQUAL    // Will output = normally, but _ when layout shift is active for JIS layout
+                   &tog_ls        // Toggle layout shift on/off
+                   &tog_ls_on     // Turn layout shift on
+                   &tog_ls_off    // Turn layout shift off
+               >;
+           };
+       };
+   };
+   ```
 
 ### 3. Include the Overlay (Optional)
 
@@ -125,9 +129,13 @@ Select the target keyboard layout by setting one of the following Kconfig option
 # Japanese (JIS) layout (default)
 CONFIG_LAYOUT_SHIFT_TARGET_JIS=y
 
+# or
+
 # Dvorak layout
 CONFIG_LAYOUT_SHIFT_TARGET_DVORAK=y
 ```
+
+See [Kconfig](Kconfig) for all available options.
 
 **Note**: Only one layout can be selected at compile-time. If no layout is explicitly selected, JIS (Japanese) layout will be used as the default.
 
@@ -163,7 +171,7 @@ config LAYOUT_SHIFT_TARGET_DVORAK
     bool "Dvorak"
 
 config LAYOUT_SHIFT_TARGET_COLEMAK    # Add this line
-    bool "Colemak"                     # Add this line
+    bool "Colemak"                    # Add this line
 
 endchoice
 ```
@@ -208,13 +216,3 @@ Add the include statement to `src/layouts/index.h`:
 ### Step 5: Update Documentation
 
 Update this README.md to list the new layout in the "List of Supported Layouts" section.
-
-### Step 6: Test
-
-Run the build verification test to ensure everything compiles correctly:
-
-```bash
-ZMK_CONFIG_NAME=zmk-config-roBa just --justfile ../../justfile --working-directory ../.. build roBa_R -S zmk-usb-logging
-```
-
-That's it! The new layout will be available for selection in the Kconfig system.
