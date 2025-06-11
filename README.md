@@ -1,12 +1,10 @@
-# [WIP] ZMK Layout Shift Module
+# ZMK Layout Shift Module
 
 This module provides a mechanism to dynamically shift keyboard layouts at runtime, primarily intended to solve discrepancies when an OS is configured for a non-US layout (e.g., JIS).
+
 By overriding the `&kp` behavior, it works without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
 
-> [!Warning]
-> 🚧 **This module is work in progress.** 🚧
->
-> Use it at your own risk; it may not work as expected, or the behavior may change in the future.
+## Behaviors
 
 This module defines the following behaviors:
 
@@ -68,14 +66,7 @@ manifest:
 
    See [Kconfig](Kconfig) for all available options.
 
-3. Use the following behaviors in your keymap to make your keyboard layout-aware:
-
-   - `&kpls`: A layout-aware version of `&kp`; maps keycodes according to the current layout shift state
-   - `&tog_ls`: Toggles the layout shift state
-   - `&tog_ls_on`: Turns on the layout shift state
-   - `&tog_ls_off`: Turns off the layout shift state
-
-   Example:
+3. Use `&kpls` / `&tog_ls` / `&tog_ls_on` / `&tog_ls_off` in your keymap to make your keyboard layout-aware:
    ```dts
    #include <layout_shift.dtsi>
 
@@ -98,8 +89,6 @@ manifest:
 ### 3. Override `&kp` Behavior (Optional)
 
 You can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) to override the `&kp` behavior with `&kpls`, so that you can use layout shift without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
-
-Example:
 ```dts
 #include <layout_shift_kp_override.dtsi>
 
