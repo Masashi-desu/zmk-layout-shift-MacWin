@@ -24,9 +24,8 @@ Optionally, you can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shif
 
 ### 1. Add the Module to your `west.yml`
 
-Include this module in your `west.yml` manifest file (and run `west update` if building locally).
+Include this module in your `west.yml` manifest file:
 
-Example:
 ```yml
 manifest:
   remotes:
