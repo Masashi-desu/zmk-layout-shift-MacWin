@@ -149,6 +149,10 @@ static const struct keycode_mapping layout_map[] = {
 #endif
 ```
 
+References:
+- [`keys.h`](https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/keys.h)
+- [`modifiers.h`](https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/modifiers.h)
+
 ### Step 3: Include in Index File
 
 Add the include statement to `src/layouts/index.h`:
