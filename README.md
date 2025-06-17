@@ -20,15 +20,6 @@ Optionally, you can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shif
 - **JIS**: Japanese keyboard layout (default)
 - **Dvorak**: Dvorak keyboard layout
 
-## Modifier Handling
-
-This module supports granular modifier control for each keycode mapping using ZMK's standard modifier macros (`STRIP_MODS`, `APPLY_MODS`, `SELECT_MODS`). You can specify which modifiers are **optional** during keycode matching:
-
-- **Optional modifiers**: Specified modifiers are ignored during keycode matching but may be masked to prevent unwanted output
-- **Required modifiers**: Non-optional modifiers must match exactly between input and layout definition
-- **Layout-defined output**: Target keycodes use modifiers as defined in the layout, combined with any required input modifiers  
-- **Full modifier support**: All ZMK modifiers (Shift, Ctrl, Alt, GUI) are properly handled and preserved when required
-
 ## Usage
 
 ### 1. Add the Module to your `west.yml`
