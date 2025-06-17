@@ -217,7 +217,6 @@ static int on_layout_shift_key_press_binding_pressed(struct zmk_behavior_binding
     int ret = store_key_mapping(data, original_keycode, mapped_keycode);
     if (ret < 0) {
         LOG_ERR("LAYOUT_SHIFT: Failed to store key mapping: %d", ret);
-        // Fall back to direct mapping if storage fails
     }
 
     // Raise the mapped keycode event
