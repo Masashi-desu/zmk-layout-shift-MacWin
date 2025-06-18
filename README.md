@@ -24,8 +24,6 @@ Optionally, you can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shif
 
 ### 1. Add the Module to your `west.yml`
 
-Include this module in your `west.yml` manifest file:
-
 ```yml
 manifest:
   remotes:
@@ -111,7 +109,7 @@ In this case, you can omit `layout_shift.dtsi` as it's also included in `layout_
 
 ### Step 1: Add Kconfig Option
 
-Add a new option to the `choice` block in `Kconfig`:
+Add a new option to the `choice` block in [`Kconfig`](Kconfig):
 
 ```kconfig
 choice LAYOUT_SHIFT_TARGET_LAYOUT
@@ -132,7 +130,7 @@ endchoice
 
 ### Step 2: Create Layout Definition File
 
-Create a new layout file in `src/layouts/` (e.g., `layout_colemak.h`):
+Create a new layout file in [`src/layouts/`](src/layouts/) (e.g., `layout_colemak.h`):
 
 ```c
 #ifdef CONFIG_LAYOUT_SHIFT_TARGET_COLEMAK
@@ -161,12 +159,12 @@ static const struct keycode_mapping layout_map[] = {
 - Custom combinations: `OPTIONAL_CTRL | OPTIONAL_ALT` (Ctrl/Alt optional, Shift/GUI required)
 
 References:
-- [`keys.h`](https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/keys.h)
-- [`modifiers.h`](https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/modifiers.h)
+- [`zmk/keys.h`](https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/keys.h)
+- [`zmk/modifiers.h`](https://github.com/zmkfirmware/zmk/blob/main/app/include/dt-bindings/zmk/modifiers.h)
 
 ### Step 3: Include in Index File
 
-Add the include statement to `src/layouts/index.h`:
+Add the include statement to [`src/layouts/index.h`](src/layouts/index.h):
 
 ```c
 // Layout index - includes all available layout definitions
