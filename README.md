@@ -89,7 +89,12 @@ You can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_overrid
 #include <layout_shift_kp_override.dtsi>
 ```
 
-Now you can use `&kp` as usual.
+> [!important]
+> You may need to add this include \*\***below**\*\* the `#include <behaviors.dtsi>` or other includes to make it work.
+
+Note: You can omit `layout_shift.dtsi` as it's also included in `layout_shift_kp_override.dtsi`.
+
+Now you can use `&kp` as usual:
 
 ```dts
 #include <layout_shift_kp_override.dtsi>
@@ -109,9 +114,6 @@ Now you can use `&kp` as usual.
     };
 };
 ```
-
-> [!note]
-> You can omit `layout_shift.dtsi` as it's also included in `layout_shift_kp_override.dtsi`.
 
 ## Adding New Layouts
 
