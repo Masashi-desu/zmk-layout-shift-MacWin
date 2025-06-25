@@ -88,11 +88,12 @@ You can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_overrid
 ```c
 #include <layout_shift_kp_override.dtsi>
 ```
+Note: You can omit `layout_shift.dtsi` as it's also included in `layout_shift_kp_override.dtsi`.
 
 > [!important]
-> You may need to add this include \*\***below**\*\* the `#include <behaviors.dtsi>` or other includes to make it work.
+> You need to add this include \*\***below**\*\* the `#include <behaviors.dtsi>` or other includes to make it work.
+> However, [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) might reorder the includes without notice. To avoid this, you can copy-paste the definition of `&kp` from [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) directly to your keymap file.
 
-Note: You can omit `layout_shift.dtsi` as it's also included in `layout_shift_kp_override.dtsi`.
 
 Now you can use `&kp` as usual:
 
