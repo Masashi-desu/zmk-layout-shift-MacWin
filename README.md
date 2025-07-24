@@ -19,6 +19,7 @@ Optionally, you can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shif
 
 - **JIS**: Japanese keyboard layout (default)
 - **Dvorak**: Dvorak keyboard layout
+- **Swap Ctrl and Cmd**: Swap Ctrl / Cmd for Windows / Mac (Note: this does not work with mod-taps (`&mt`))
 
 ## Usage
 
@@ -133,6 +134,8 @@ config LAYOUT_SHIFT_TARGET_JIS
 config LAYOUT_SHIFT_TARGET_DVORAK
     bool "Dvorak"
 
+...
+
 config LAYOUT_SHIFT_TARGET_COLEMAK    # Add this line
     bool "Colemak"                    # Add this line
 
@@ -183,6 +186,7 @@ Add the include statement to [`src/layouts/index.h`](src/layouts/index.h):
 
 #include "layout_jis.h"
 #include "layout_dvorak.h"
+...
 #include "layout_colemak.h"    // Add this line
 
 // Ensure at least one layout is defined

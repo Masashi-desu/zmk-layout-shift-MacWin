@@ -25,6 +25,11 @@ config LAYOUT_SHIFT_TARGET_DVORAK
     help
       Dvorak keyboard layout mappings.
 
+config LAYOUT_SHIFT_TARGET_SWAP_CTRL_CMD
+    bool "Swap Ctrl and Cmd"
+    help
+      Swap Ctrl / Cmd for Windows / Mac.
+
 endchoice
 
 config LAYOUT_SHIFT_PERSISTENT_STATE
