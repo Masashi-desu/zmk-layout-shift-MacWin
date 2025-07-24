@@ -37,7 +37,7 @@ For detailed project overview, features, and usage instructions, please refer to
 **MANDATORY BUILD CHECK**: After any implementation or modification, verify that the build passes by running the following command:
 
 ```bash
-ZMK_CONFIG=zmk-config-roBa just build roBa_R -S zmk-usb-logging
+just build roBa_R -S zmk-usb-logging
 ```
 
 If build fails, fix the issue and try again until it passes.
