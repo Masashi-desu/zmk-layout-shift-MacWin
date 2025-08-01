@@ -2,7 +2,7 @@
 
 This module provides a mechanism to dynamically shift keyboard layouts at runtime, primarily intended to solve discrepancies when an OS is configured for a non-US layout (e.g., JIS).
 
-By overriding the `&kp` behavior, it works without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
+Specifically, this module provides a behavior `&kpls` that maps keycodes according to the current layout shift state. By overriding the `&kp` behavior with `&kpls`, it works without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
 
 ## Behaviors
 
