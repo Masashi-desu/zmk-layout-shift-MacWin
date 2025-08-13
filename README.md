@@ -1,5 +1,7 @@
 # ZMK Layout Shift Module
 
+[ English / [日本語](README_ja.md) ]
+
 This module provides a mechanism to dynamically shift keyboard layouts at runtime, primarily intended to solve discrepancies when an OS is configured for a non-US layout (e.g., JIS).
 
 Specifically, this module provides a behavior `&kpls` that maps keycodes according to the current layout shift state. By overriding the `&kp` behavior with `&kpls`, it works without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
@@ -17,7 +19,7 @@ Optionally, you can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shif
 
 ## List of Supported Layouts
 
-- **JIS**: Japanese keyboard layout (default)
+- **JIS**: Japanese keyboard layout
 - **Dvorak**: Dvorak keyboard layout
 - **Swap Ctrl and Cmd**: Swap Ctrl / Cmd for Windows / Mac (Note: Currently, this only works with pure modifier key presses (like `&kp LEFT_CONTROL`) or mod-taps (like `&mt LEFT_CONTROL A`). It doesn't work for modifiers applied to non-modifier key presses (like `&kp LCTL(C)`)).
 
@@ -62,7 +64,7 @@ manifest:
    CONFIG_LAYOUT_SHIFT_TARGET_DVORAK=y
    ```
 
-3. Use `&kpls` / `&tog_ls` / `&tog_ls_on` / `&tog_ls_off` in your keymap to make your keyboard layout-aware:
+3. Add `&kpls` / `&tog_ls` / `&tog_ls_on` / `&tog_ls_off` to your keymap to allow toggling the layout shift state
    ```dts
    #include <layout_shift.dtsi>
 
@@ -93,7 +95,7 @@ Note: You can omit `layout_shift.dtsi` as it's also included in `layout_shift_kp
 
 > [!important]
 > You need to add this include \*\***below**\*\* the `#include <behaviors.dtsi>` or other includes to make it work.
-> However, [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) might reorder the includes without notice. To avoid this, you can copy-paste the definition of `&kp` from [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) directly to your keymap file.
+> However, [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) automatically reorders the includes. To avoid this, you can copy-paste the definition of `&kp` from [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) directly to your keymap file.
 
 
 Now you can use `&kp` as usual:
