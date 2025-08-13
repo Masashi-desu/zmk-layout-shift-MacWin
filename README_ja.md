@@ -27,7 +27,7 @@
 
 ### 1. `west.yml` にモジュールを追加する
 
-```diff:yml
+```yml
 manifest:
   remotes:
     - name: zmkfirmware
