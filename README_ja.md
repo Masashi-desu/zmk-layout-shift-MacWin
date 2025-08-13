@@ -95,7 +95,7 @@ Note: `layout_shift_kp_override.dtsi` には `layout_shift.dtsi` も含まれて
 
 > [!important]
 > この include は `#include <behaviors.dtsi>` やその他の include \*\***よりも下**\*\*に追加する必要があります。
-> しかあし、[Keymap Editor](https://nickcoutsos.github.io/keymap-editor/)を使用すると、勝手に include の順序が並べ替わります。これを避けるには、[`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) から `&kp` の定義を直接キーマップファイルにコピペしてください。
+> しかし、[Keymap Editor](https://nickcoutsos.github.io/keymap-editor/)を使用すると、勝手に include の順序が並べ替わります。これを避けるには、[`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) から `&kp` の定義を直接キーマップファイルにコピペしてください。
 
 これで通常通り `&kp` を使用可能になります。
 
