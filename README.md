@@ -61,7 +61,7 @@ manifest:
    # etc.
    ```
 
-3. Add `&tog_ls` / `&tog_ls_on` / `&tog_ls_off` to your keymap and use `&kpls` instead of `&kp` to allow toggling the layout
+3. Add `&tog_ls` / `&tog_ls_on` / `&tog_ls_off` to your keymap and use `&kpls` instead of `&kp` to allow toggling the layout:
    ```dts
    #include <layout_shift.dtsi>
 
