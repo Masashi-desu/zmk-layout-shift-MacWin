@@ -2,13 +2,15 @@
 
 [ English / [日本語](README_ja.md) ]
 
-This module provides a mechanism to dynamically shift keyboard layouts at runtime, primarily intended to solve discrepancies when an OS is configured for a non-US layout (e.g., JIS).
+This module provides mechanisms to dynamically shift keyboard layouts at runtime and to switch between US and JIS host layouts. It is primarily intended to solve discrepancies when an OS is configured for a non-US layout (e.g., JIS).
 
-Specifically, this module provides a behavior `&kpls` that maps keycodes according to the current layout shift state. By overriding the `&kp` behavior with `&kpls`, it works without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
+Specifically, this module provides behaviors like `&kpls` and `&kple` that map keycodes according to the current layout shift or layout environment state. By overriding the `&kp` behavior with `&kpls`, it works without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
 
 ## Behaviors
 
 This module defines the following behaviors:
+
+### Layout Shift
 
 - `&kpls`: A layout-aware version of `&kp`; maps keycodes according to the current layout shift state. For example, `&kpls EQUAL` normally outputs `=`, but outputs `_` (which is `=` in JIS layout) when JIS layout is enabled.
 - `&tog_ls`: Toggles the layout shift state
@@ -17,6 +19,15 @@ This module defines the following behaviors:
 - `&to_ls <state>`: Sets the layout shift state explicitly (0: off, 1: on)
 - `&mols <layer>`: Activates a layer, switching to an alternate layer when layout shift is enabled
 - `&mscls <dir>`: Sends mouse scroll input with direction adjusted by the current layout
+
+### Layout Environment
+
+- `&kple`: A host-layout-aware version of `&kp`; maps keycodes according to the current layout environment (US or JIS host layout).
+- `&tog_le`: Toggles the layout environment state
+- `&tog_le_on`: Turns on the layout environment state
+- `&tog_le_off`: Turns off the layout environment state
+- `&to_le <state>`: Sets the layout environment explicitly (0: US, 1: JIS)
+- `&mtlse <...>`: Mod-tap that holds layout shift and taps layout environment
 
 Optionally, you can `#include` [`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) to override the `&kp` behavior with `&kpls`, so that you can use layout shift without modifying your keymap, while preserving [Keymap Editor](https://nickcoutsos.github.io/keymap-editor/) compatibility.
 
@@ -118,6 +129,33 @@ Now you can use `&kp` as usual:
     };
 };
 ```
+
+### 4. Using Layout Environment
+
+1. `#include` [`layout_env.dtsi`](dts/layout_env.dtsi) at the top of your keymap:
+   ```c
+   #include <layout_env.dtsi>
+   ```
+
+2. Use `&kple` instead of `&kp` for keys that depend on the host layout.
+
+3. Add `&tog_le` / `&tog_le_on` / `&tog_le_off` to toggle between US and JIS host layouts:
+   ```dts
+   #include <layout_env.dtsi>
+
+   / {
+       keymap {
+           compatible = "zmk,keymap";
+
+           default_layer {
+               bindings = <
+                   &kple GRAVE   // Outputs ` when US layout is active, but ¥ in JIS
+                   &tog_le       // Toggle layout environment on/off
+               >;
+           };
+       };
+   };
+   ```
 
 ## Adding New Layouts
 

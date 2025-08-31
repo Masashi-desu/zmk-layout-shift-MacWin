@@ -2,13 +2,15 @@
 
 [ [English](README.md) / 日本語 ]
 
-このモジュールは、主にOSがJIS配列などの非USレイアウトに設定されている場合のキーコードの相違を解消することを目的として、実行時にキーボードレイアウトを動的に切り替える機能を提供します。
+このモジュールは、主にOSがJIS配列などの非USレイアウトに設定されている場合のキーコードの相違を解消することを目的として、実行時にキーボードレイアウトを動的に切り替えたり、US/JISホストレイアウトを切り替える機能を提供します。
 
-具体的には、現在のレイアウトシフト状態に応じてキーコードをマッピングする `&kpls` behaviorを提供します。また、`&kpls` で `&kp` をオーバーライドすることで、既存のキーマップを変更することなく、[Keymap Editor](https://nickcoutsos.github.io/keymap-editor/)との互換性を維持しながら使用することができます。
+具体的には、現在のレイアウトシフト状態やレイアウト環境状態に応じてキーコードをマッピングする `&kpls` や `&kple` のような behavior を提供します。また、`&kpls` で `&kp` をオーバーライドすることで、既存のキーマップを変更することなく、[Keymap Editor](https://nickcoutsos.github.io/keymap-editor/)との互換性を維持しながら使用することができます。
 
 ## Behavior 一覧
 
 このモジュールは以下のbehaviorを定義します。
+
+### レイアウトシフト
 
 - `&kpls`: 現在のレイアウトシフト状態に応じてキーコードをマッピングする、レイアウト対応版の `&kp`。例えば、`&kpls EQUAL` は通常は `=` を出力するが、JISレイアウトが有効な場合は `_` (JISレイアウトでの `=` に対応)を出力する
 - `&tog_ls`: レイアウトシフト状態のオンオフを切り替える
@@ -17,6 +19,15 @@
 - `&to_ls <state>`: レイアウトシフト状態を明示的に設定する (0: オフ, 1: オン)
 - `&mols <layer>`: 指定したレイヤーを有効化し、レイアウトシフト時は別のレイヤーに切り替える
 - `&mscls <dir>`: マウススクロール入力を送信し、レイアウトに応じてスクロール方向を調整する
+
+### レイアウト環境
+
+- `&kple`: US と JIS のホストレイアウトに応じてキーコードをマッピングする、レイアウト環境対応版の `&kp`
+- `&tog_le`: レイアウト環境のオンオフを切り替える
+- `&tog_le_on`: レイアウト環境をオンにする
+- `&tog_le_off`: レイアウト環境をオフにする
+- `&to_le <state>`: レイアウト環境を明示的に設定する (0: US, 1: JIS)
+- `&mtlse <...>`: レイアウトシフトをホールドし、レイアウト環境キーをタップするモッドタップ
 
 オプションとして、[`layout_shift_kp_override.dtsi`](dts/layout_shift_kp_override.dtsi) を `#include` することで、`&kpls` で `&kp` をオーバーライドできます。これにより、既存のキーマップを変更することなく、[Keymap Editor](https://nickcoutsos.github.io/keymap-editor/)との互換性を維持しながら使用することができます。
 
@@ -117,6 +128,33 @@ Note: `layout_shift_kp_override.dtsi` には `layout_shift.dtsi` も含まれて
     };
 };
 ```
+
+### 4. レイアウト環境の使用
+
+1. キーマップの先頭で [`layout_env.dtsi`](dts/layout_env.dtsi) を `#include` する:
+   ```c
+   #include <layout_env.dtsi>
+   ```
+
+2. ホストレイアウトに依存するキーには `&kp` の代わりに `&kple` を使用する。
+
+3. `&tog_le` / `&tog_le_on` / `&tog_le_off` を追加して US と JIS のホストレイアウトを切り替える:
+   ```dts
+   #include <layout_env.dtsi>
+
+   / {
+       keymap {
+           compatible = "zmk,keymap";
+
+           default_layer {
+               bindings = <
+                   &kple GRAVE   // US では `、JIS では ¥ を出力
+                   &tog_le       // レイアウト環境のオン/オフを切り替え
+               >;
+           };
+       };
+   };
+   ```
 
 ## 新しいレイアウトの追加手順
 
